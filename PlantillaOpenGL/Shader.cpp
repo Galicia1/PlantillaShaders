@@ -6,6 +6,9 @@ GLuint Shader::getID() {
 }
 
 Shader::Shader(const char* rutaVertex, const char * rutaFragment) {
+	//guardar en variables el texto de los codigos
+
+
 	string codigoVertexShader;
 	ifstream vertexShaderStream(rutaVertex, ios::in);
 
@@ -17,6 +20,42 @@ Shader::Shader(const char* rutaVertex, const char * rutaFragment) {
 		vertexShaderStream.close();
 	}
 	else {
-		cout << "No se pudo abrir el archivo" << rutaVertex;
+		cout << "No se pudo abrir el archivo" << rutaVertex << endl;
 	}
+
+	string codigoFragmentShader;
+	ifstream fragmentShaderStream(rutaFragment, ios::in);
+	if (fragmentShaderStream.is_open()) {
+		string linea;
+		while (getline(fragmentShaderStream, linea)) {
+			codigoFragmentShader += linea + "\n";
+
+		}
+	}
+	else {
+		cout << "No se pudo abrir el archivo" << rutaFragment <<endl;
+	}
+
+	//Convertir de stringa cadena de char
+	const char* cadenaCodigoVertex = codigoVertexShader.c_str();
+	const char* cadenaCodigoFragment = codigoFragmentShader.c_str();
+
+	//1.- Crear el programa de Shader
+	shaderID = glCreateProgram();
+	GLuint vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+	GLuint fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+
+	//2.- Cargar 3l código del shader
+	glShaderSource(vertexShaderID, 1, &cadenaCodigoVertex, NULL);
+	glShaderSource(fragmentShaderID, 1, &cadenaCodigoFragment, NULL);
+
+	//3.- Compilar los Shaders
+	glCompileShader(vertexShaderID);
+	glCompileShader(fragmentShaderID);
+
+}
+
+void Shader::verificarCompilacion(GLuint id) {
+	GLint resultado = GL_FALSE;
+	int longitudLog = 0;
 }
