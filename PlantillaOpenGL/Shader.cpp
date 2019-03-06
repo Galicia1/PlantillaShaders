@@ -97,7 +97,7 @@ void Shader::verificarCompilacion(GLuint id) {
 	}
 }
 
-void Shader::verificarCompilacion(GLuint id) {
+void Shader::verificarVinculacion(GLuint id) {
 	GLint estadoVinculacion, estadoValidacion;
 
 	glGetProgramiv(id, GL_LINK_STATUS, &estadoVinculacion);
